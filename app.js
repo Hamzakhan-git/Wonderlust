@@ -30,6 +30,16 @@ let {id} = req.params;
 const listing = await Listing.findById(id);
 res.render("listings/show.ejs", {listing}); 
 })
+app.get("/listing/new", (req,res) => {
+    res.render("listings/new.ejs")
+});
+app.post("/listings", async(req,res) =>{
+    //let listing = req.body.listing;
+   const newListing = new Listing(req.body.listing);
+   await newListing.save();
+   res.redirect("/listings");
+    //console.log(listing);
+})
 
 
 // app.get("/testListing", async(req,res) => {
