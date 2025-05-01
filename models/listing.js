@@ -1,4 +1,19 @@
 const mongoose = require("mongoose");
+const express = require('express');
+const router = express.Router();
+
+// Add this snippet to debug router-level GET calls
+const originalRouterGet = router.get;
+router.get = function (path, ...args) {
+  console.log("Router GET:", path);
+  return originalRouterGet.call(this, path, ...args);
+};
+
+// Then your usual routes:
+router.get('/:id', (req, res) => {
+  res.send('Listing ID');
+});
+
 const Schema = mongoose.Schema;
 
 const listingSchema = new Schema({
