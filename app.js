@@ -5,6 +5,7 @@ const Listing = require("./models/listing.js");
 const path = require("path");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
+const wrapAsync = require("./utils/wrapAsync.js");
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname,"views"));
@@ -38,13 +39,17 @@ res.render("listings/show.ejs", {listing});
 app.get("/listing/new", (req,res) => {
     res.render("listings/new.ejs")
 });
-app.post("/listings", async(req,res) =>{
+app.post("/listings", wrapAsync(async(req,res,next) =>{
     //let listing = req.body.listing;
-   const newListing = new Listing(req.body.listing);
-   await newListing.save();
-   res.redirect("/listings");
-    //console.log(listing);
-});
+
+        const newListing = new Listing(req.body.listing);
+        await newListing.save();
+        res.redirect("/listings");
+    
+//console.log(listing);
+})
+);
+
 
 //Edit
 app.get("/listings/:id/edit", async (req,res) =>{
@@ -81,6 +86,12 @@ res.redirect(`/listings/${id}`);
 //     console.log("sample was saved");
 //     res.send("Successfully testing");
 // })
+
+app.use((err, req, res,next) =>{
+res.send("Something went wrong");
+});
+
+
 app.listen(8080, () => {
     console.log("Server is listning at port 8080");
 })
