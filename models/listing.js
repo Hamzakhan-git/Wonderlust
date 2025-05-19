@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const express = require('express');
 const router = express.Router();
-
+const Review = require("./review.js");
 // Add this snippet to debug router-level GET calls
 const originalRouterGet = router.get;
 router.get = function (path, ...args) {
@@ -41,6 +41,11 @@ const listingSchema = new Schema({
         ref: "Review",
       }
     ],
+});
+listingSchema.post("findOneAndDelete", async (listing) => {
+  if(listing) {
+    await Review.deleteMany({ _id: { $in: listing.reviews }});
+  }
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
