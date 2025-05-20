@@ -6,11 +6,11 @@ const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 
 const ExpressError = require("./utils/ExpressError.js");
-const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
-
+const session = require("express-session");
 const reviews = require("./routes/review.js");
 const listings = require("./routes/listing.js");
 
+const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname,"views"));
 app.use(express.urlencoded({extended: true}));
@@ -27,6 +27,18 @@ async function main(){
     await mongoose.connect(MONGO_URL);
 };
 
+//sessions
+const sessionOptions ={
+    secret: "mysupersecretcode",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + 7 * 24 * 60 * 60 *1000,
+        maxAge: 7 * 24 * 60 * 60 *1000,
+        httpOnly: true,
+    }
+}
+app.use(session(sessionOptions));
 
 app.get("/",(req,res) => {
     res.send("Hi, I'm root");
