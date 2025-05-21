@@ -4,11 +4,12 @@ const mongoose = require("mongoose");
 const path = require("path");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
-
+const flash = require("connect-flash");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
 const reviews = require("./routes/review.js");
 const listings = require("./routes/listing.js");
+const { log } = require("console");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 app.set("view engine", "ejs");
@@ -39,6 +40,12 @@ const sessionOptions ={
     }
 }
 app.use(session(sessionOptions));
+app.use(flash());
+app.use((req,res,next) => {
+    res.locals.success = req.flash("success");
+    console.log(res.locals.success);
+    next();
+})
 
 app.get("/",(req,res) => {
     res.send("Hi, I'm root");
