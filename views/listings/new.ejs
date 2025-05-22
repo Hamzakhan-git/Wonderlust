@@ -13,10 +13,17 @@
             <textarea name="listing[description]" class="form-control" required></textarea>
             <div class="invalid-feedback">Please write a short description</div>
         </div>
-        <div class="mb-3 ">
-            <label for="image" class="from-label">Image Link</label>
-            <input name="listing[image.url]" placeholder="enter image URL/LINK" type="text" class="form-control"/>
-        </div>
+        <div class="mb-3">
+  <label for="image" class="form-label">Listing Image URL</label>
+  <input
+    type="text"
+    name="listing[image][url]"
+    class="form-control"
+    required
+    placeholder="https://example.com/image.jpg"
+  >
+</div>
+
         <div class="row">
 
             <div class="mb-3 col-md-4">

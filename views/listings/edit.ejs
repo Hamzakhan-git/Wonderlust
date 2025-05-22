@@ -15,12 +15,21 @@
             <textarea name="listing[description]" class="form-control" required><%= listing.description %></textarea>
              <div class="invalid-feedback">Please write a short description</div>
         </div>
-        <div class="mb-3">
-            <label for="image" class="from-label">Image Link</label>
-            <input name="listing[image.url]" value="<%= listing.image.url %>" type="text" class="form-control"/ required>
-             <div class="invalid-feedback">Please add an Image URL</div>
+         <div class="mb-3">
+  Original Listing Image <br>
+  <img src="<%= listing.image.url %>" alt="listingImage" class="img-fluid" style="max-width: 300px;">
+</div>
 
-        </div>
+<div class="mb-3">
+  <label for="image" class="form-label">Update Image URL</label>
+  <input
+    type="text"
+    name="listing[image][url]"
+    value="<%= listing.image.url %>"
+    class="form-control"
+  >
+</div>
+
         <div class="row">
         <div class="mb-3 col-md-4">
             <label for="price" class="from-label">Price</label>

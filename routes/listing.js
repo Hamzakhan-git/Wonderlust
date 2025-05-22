@@ -7,6 +7,7 @@ const Listing = require("../models/listing.js");
 
 //validate Listing
 const validateListing = (req,res,next) => {
+    //console.log("REQ.BODY >>>", JSON.stringify(req.body, null, 2));
     let {error} =  listingSchema.validate(req.body);
     if(error) {
     let errMsg = error.details.map((el) => el.message).join(",");
@@ -65,9 +66,13 @@ router.get("/:id/edit", wrapAsync(async (req,res) =>{
     req.flash("error", "Listing you requested for does not exist!");
     res.redirect("/listings");
 }
-    res.render("listings/edit.ejs", {listing});
+    res.render("listings/edit.ejs", {
+  listing,
+  originalImageUrl: listing.image.url // ✅ add this
+})
 })
 );
+
  //update
  router.put("/:id",
     validateListing,
