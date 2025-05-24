@@ -43,7 +43,7 @@ router.post("/login",
     async(req,res) =>{
         req.flash("succes","Welcome to WonderLust! You are logged in!");
         let redirectUrl = res.locals.redirectUrl  || "/listings";
-        res.redirect(res.locals.redirectUrl);
+        res.redirect(redirectUrl);
 });
 
 router.get("/logout", (req,res) =>{
