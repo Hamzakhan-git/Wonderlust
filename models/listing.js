@@ -57,8 +57,12 @@ image : {
       coordinates: {
         type: [Number],
         required: true,
-      }
-    }
+      },
+    },
+    // category: {
+    //   type: String,
+    //   enum: ["trending","rooms","iconic cities","mountains","castles","amazing pools","camping", "arctic", "farms",]
+    // },
 });
 listingSchema.post("findOneAndDelete", async (listing) => {
   if(listing) {
