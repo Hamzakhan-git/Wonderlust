@@ -30,7 +30,12 @@ if(!listing){
     req.flash("error", "Listing you requested for does not exist!");
     res.redirect("/listings");
 }
-res.render("listings/show.ejs", {listing}); 
+res.render("listings/show", {
+  listing,
+  MAP_TOKEN: process.env.MAP_TOKEN,
+  currUser: req.user,
+});
+
 };
 
 module.exports.createListing =async(req,res,next) =>{

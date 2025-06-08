@@ -16,3 +16,5 @@
         )
     )
     .addTo(map);
+    console.log('Listing:', listing);
+console.log('Map Token:', mapToken);
