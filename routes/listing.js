@@ -18,6 +18,13 @@ router
     wrapAsync(listingController.createListing)
 );
 
+//search
+// search route
+router.get('/search', wrapAsync(listingController.searchListings));
+
+
+
+
 //NewRoute
 router.get("/new",isLoggedIn,listingController.renderNewForm);
 
@@ -43,6 +50,7 @@ router.get("/:id/edit",isLoggedIn,
   isOwner,
   wrapAsync(listingController.renderEditForm)
 );
+
 
 
 module.exports = router;

@@ -3,10 +3,15 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
-module.exports.index = async (req,res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index.ejs", {allListings});
+module.exports.index = async (req, res) => {
+  const allListings = await Listing.find({});
+  res.render("listings/index.ejs", {
+    allListings,
+    listings: [],
+    searchQuery: null
+  });
 };
+
 
 module.exports.renderNewForm =  (req,res) => {
     
@@ -88,3 +93,23 @@ res.redirect(`/listings/${id}`);
      req.flash("success", "Listing Deleted!");
      res.redirect("/listings");
   };
+  
+ //search
+ module.exports.searchListings = async (req, res) => {
+  const query = req.query.q;
+
+  try {
+    const listings = await Listing.find({
+      location: { $regex: query, $options: 'i' } // case-insensitive partial match
+    });
+
+    res.render("listings/index", {
+      listings,
+      searchQuery: query,
+      allListings: [] // ensures index doesn't show all listings when searching
+    });
+  } catch (err) {
+    console.error("Search error:", err);
+    res.status(500).send("Something went wrong during search.");
+  }
+};
