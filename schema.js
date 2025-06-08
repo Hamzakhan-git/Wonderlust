@@ -11,7 +11,8 @@ module.exports.listingSchema = Joi.object({
     //   url: Joi.string().uri().allow("", null)
     // }).unknown(true)  // ✅ this line is essential
     image: Joi.string().allow("",null)
-  }).required()
+  }).required().unknown()
+  
 });
 
 module.exports.reviewSchema = Joi.object({

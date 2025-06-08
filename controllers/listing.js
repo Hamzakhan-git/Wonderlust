@@ -93,20 +93,55 @@ res.redirect(`/listings/${id}`);
      req.flash("success", "Listing Deleted!");
      res.redirect("/listings");
   };
-  
+
  //search
  module.exports.searchListings = async (req, res) => {
-  const query = req.query.q;
+  let query = req.query.q;
+  console.log("QUERY:", req.query);
+
+  // Sanitize and validate query
+  if (Array.isArray(query)) {
+    query = query[0]; // Take the first element if it's an array
+  }
+
+  if (typeof query !== "string" || query.trim() === "") {
+    // No valid search input — show empty or all listings as fallback
+    return res.render("listings/index", {
+      listings: [],
+      searchQuery: "",
+      allListings: []
+    });
+  }
+
+  query = query.trim(); // Remove leading/trailing spaces
 
   try {
-    const listings = await Listing.find({
-      location: { $regex: query, $options: 'i' } // case-insensitive partial match
-    });
+    let listings;
+
+    const categories = [
+      "Trending", "Rooms", "Iconic Cities", "Mountains",
+      "Castles", "Amazing Pools", "Camping", "Farms",
+      "Arctic", "Domes", "Boats"
+    ];
+
+    if (categories.includes(query)) {
+      // Exact match for category
+      listings = await Listing.find({ category: query });
+    } else {
+      // Free-text search
+      listings = await Listing.find({
+        $or: [
+          { location: { $regex: query, $options: "i" } },
+          { title: { $regex: query, $options: "i" } },
+          { country: { $regex: query, $options: "i" } }
+        ]
+      });
+    }
 
     res.render("listings/index", {
       listings,
       searchQuery: query,
-      allListings: [] // ensures index doesn't show all listings when searching
+      allListings: []
     });
   } catch (err) {
     console.error("Search error:", err);

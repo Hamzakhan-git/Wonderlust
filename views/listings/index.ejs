@@ -33,52 +33,79 @@ font-size: 0.8rem;
   align-items: center;
 
 }
+#filters a {
+  text-decoration: none;
+  color: inherit;
+}
+
 </style>
 
 <div id="filters">
   <div class="filter">
+    <a href="/listings/search?q=Trending" class="filter">
     <div><i class="fa-solid fa-fire"></i></div>
     <p>Trending</p>
+    </a>
   </div>
   <div class="filter">
+    <a href="/listings/search?q=Rooms" class="filter">
     <div><i class="fa-solid fa-bed"></i></div>
     <p>Rooms</p>
+    </a>
   </div>
   <div class="filter">
+    <a href="/listings/search?q=Iconic Cities" class="filter">
     <div><i class="fa-solid fa-mountain-city"></i></div>
     <p>Iconic Cities</p>
+    </a>
   </div>
   <div class="filter">
+    <a href="/listings/search?q=Mountains" class="filter">
     <div><i class="fa-solid fa-mountain"></i></div>
     <p>Mountains</p>
+    </a>
   </div>
   <div class="filter">
+    <a href="/listings/search?q=Castles" class="filter">
     <div><i class="fa-brands fa-fort-awesome"></i></div>
     <p>Castles</p>
+    </a>
   </div>
   <div class="filter">
+    <a href="/listings/search?q=Amazing Pools" class="filter">
     <div><i class="fa-solid fa-person-swimming"></i></div>
     <p>Amazing Pools</p>
+    </a>
   </div>
   <div class="filter">
+    <a href="/listings/search?q=Camping" class="filter">
     <div><i class="fa-solid fa-campground"></i></div>
     <p>Camping</p>
+    </a>
   </div>
   <div class="filter">
+    <a href="/listings/search?q=Farms" class="filter">
     <div><i class="fa-solid fa-cow"></i></div>
     <p>Farms</p>
+    </a>
   </div>
   <div class="filter">
+    <a href="/listings/search?q=Arctic" class="filter">
     <div><i class="fa-solid fa-snowflake"></i></div>
     <p>Arctic</p>
+    </a>
   </div>
   <div class="filter">
+    <a href="/listings/search?q=Domes" class="filter">
     <div><i class="fa-solid fa-igloo"></i></div>
     <p>Domes</p>
+    </a>
   </div>
   <div class="filter">
+    <a href="/listings/search?q=Boats" class="filter">
     <div><i class="fa-solid fa-ship"></i></div>
     <p>Boats</p>
+    </a>
   </div>
 
   <div class="tax-toggle">
@@ -134,9 +161,10 @@ font-size: 0.8rem;
   </div>
 <% } %>
 
+
     <!-- <ul>
       <%  for(let listing of allListings){ %>
-            <li><a href="/listings/<%= listing._id %> "><%= listing.title %></a></li>
+            <li><a href="/listings/<%= listing._id %> "><%= listing.title %></li>
        <% } %>
     </ul> -->
     

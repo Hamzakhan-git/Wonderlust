@@ -59,10 +59,11 @@ image : {
         required: true,
       },
     },
-    // category: {
-    //   type: String,
-    //   enum: ["trending","rooms","iconic cities","mountains","castles","amazing pools","camping", "arctic", "farms",]
-    // },
+    category: {
+  type: String,
+  enum: ["Trending", "Rooms", "Iconic Cities", "Mountains", "Castles", "Amazing Pools", "Camping", "Farms", "Arctic", "Domes", "Boats"]
+}
+
 });
 listingSchema.post("findOneAndDelete", async (listing) => {
   if(listing) {
