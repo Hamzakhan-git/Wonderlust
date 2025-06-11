@@ -1,16 +1,30 @@
 const Listing = require("./models/listing");
 const Review = require("./models/review");
 const ExpressError = require("./utils/ExpressError.js");
-const {listingSchema,reviewSchema} = require("./schema.js");
+const {listingSchema,reviewSchema,userSchema} = require("./schema.js");
 
-module.exports.isLoggedIn = (req,res,next) =>{
-    if(!req.isAuthenticated()){
-        req.session.redirectUrl = req.originalUrl;
-        req.flash("error","You must be logged in to create listing!");
-        return res.redirect("/login");
-    }
-    next();
+// middleware.js
+module.exports.isLoggedIn = (req, res, next) => {
+  console.log("SESSION:", req.session);
+  console.log("isAuthenticated:", req.isAuthenticated());
+  console.log("USER:", req.user);
+
+  if (!req.isAuthenticated()) {
+    req.session.redirectUrl = req.originalUrl;
+    req.flash("error", "You must be logged in.");
+    return res.status(401).redirect("/login");
+  }
+
+  if (!req.user?.isVerified) {
+    req.logout(() => {
+      req.flash("error", "Please verify your email before continuing.");
+      return res.redirect("/login");
+    });
+  } else {
+    return next();
+  }
 };
+
 
 module.exports.savedRedirectUrl = (req,res,next) =>{
     if(req.session.redirectUrl) {
@@ -58,4 +72,14 @@ module.exports.isReviewAuthor = async (req,res,next) => {
      return res.redirect(`/listings/${id}`);
     }
     next();
+};
+
+module.exports.validateUser = (req, res, next) => {
+  const { error } = userSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map(el => el.message).join(",");
+    req.flash("error", msg);
+    return res.redirect("back");
+  }
+  next();
 };

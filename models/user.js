@@ -2,13 +2,21 @@ const { required } = require("joi");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require("passport-local-mongoose");
+const crypto = require("crypto");
 
 const userSchema = new Schema({
-    email:{
+    email: {
         type: String,
         required: true,
-    }
-
+    },
+    isVerified: {
+        type: Boolean,
+        default: false,
+    },
+    verifyToken: String,
+    verifyTokenExpires: Date
 });
+
 userSchema.plugin(passportLocalMongoose);
+
 module.exports = mongoose.model("User", userSchema);
