@@ -112,3 +112,8 @@ module.exports.verifyEmail = async (req, res) => {
     res.redirect("/signup");
   }
 };
+//Google Oauth
+module.exports.googleCallback = (req, res) => {
+  req.flash("success", "Logged in with Google!");
+  res.redirect("/listings");
+};

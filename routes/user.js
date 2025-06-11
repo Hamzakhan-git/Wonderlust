@@ -27,6 +27,14 @@ router.get("/logout",
     userController.Logout
 );
 
+// Google OAuth
+router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
+router.get("/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  userController.googleCallback
+);
+
 router.get("/verify-email/:token", async (req, res) => {
   try {
     const token = req.params.token;

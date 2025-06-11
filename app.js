@@ -16,6 +16,7 @@ const listingRouter = require("./routes/listing.js");
 const userRouter = require("./routes/user.js");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./models/user.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
@@ -87,6 +88,39 @@ app.use((req,res,next) => {
 // app.get("/",(req,res) => {
 //     res.send("Hi, I'm root");
 // });
+
+
+
+ // Adjust path to your User model
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,     // from Google Dev Console
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:8080/auth/google/callback"
+  },
+  async (accessToken, refreshToken, profile, done) => {
+    try {
+      // Try to find existing user
+      let user = await User.findOne({ googleId: profile.id });
+
+      if (!user) {
+        // Create new user if not found
+        user = new User({
+          username: profile.displayName,
+          email: profile.emails[0].value,
+          googleId: profile.id,
+          isVerified: true
+        });
+        await user.save();
+      }
+
+      return done(null, user);
+    } catch (err) {
+      return done(err, null);
+    }
+  }
+));
+
 
 
 

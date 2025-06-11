@@ -14,7 +14,9 @@ const userSchema = new Schema({
         default: false,
     },
     verifyToken: String,
-    verifyTokenExpires: Date
+    verifyTokenExpires: Date,
+    googleId: String,
+
 });
 
 userSchema.plugin(passportLocalMongoose);
