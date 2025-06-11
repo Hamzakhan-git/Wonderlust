@@ -42,7 +42,7 @@ async function main(){
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     crypto: {
-        secret: "mysupersecretcode",
+        secret: process.env.SECRET,
     },
     touchAfter: 24 * 3600,
 });
@@ -53,7 +53,7 @@ store.on("error", () => {
 //sessions
 const sessionOptions ={
     store,
-    secret: "mysupersecretcode",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -111,7 +111,7 @@ app.use((req,res,next) => {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,     // from Google Dev Console
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:8080/auth/google/callback"
+    callbackURL: "https://wonderlust-u1lx.onrender.com/auth/google/callback"
   },
   async (accessToken, refreshToken, profile, done) => {
     try {

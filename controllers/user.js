@@ -20,7 +20,8 @@ module.exports.signup = async (req, res) => {
     user.verifyTokenExpires = Date.now() + 1000 * 60 * 60; // 1 hour
     await user.save(); // ✅ Save token info in DB
 
-    const link = `http://localhost:8080/verify-email/${user.verifyToken}`;
+    const link = `https://wonderlust-u1lx.onrender.com/verify-email/${user.verifyToken}`;
+;
 
     // Configure email transporter
     const transporter = nodemailer.createTransport({
