@@ -11,6 +11,7 @@ const methodOverride = require("method-override");
 const flash = require("connect-flash");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const reviewRouter = require("./routes/review.js");
 const listingRouter = require("./routes/listing.js");
 const userRouter = require("./routes/user.js");
@@ -19,7 +20,9 @@ const LocalStrategy = require("passport-local");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./models/user.js");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
+//const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
+const dbUrl = process.env.ATLASDB_URL;
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname,"views"));
 app.use(express.urlencoded({extended: true}));
@@ -30,14 +33,26 @@ main().then(()=> {
     console.log("connected to DB ");
 })
 .catch((err) =>{
-    consolr.log(err);
+    console.log(err);
 });
 async function main(){
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(dbUrl);
 };
 
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    crypto: {
+        secret: "mysupersecretcode",
+    },
+    touchAfter: 24 * 3600,
+});
+
+store.on("error", () => {
+    console.log("ERROR in MONGO SESSION STORE", err);
+});
 //sessions
 const sessionOptions ={
+    store,
     secret: "mysupersecretcode",
     resave: false,
     saveUninitialized: true,
@@ -69,9 +84,9 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 app.use((req,res,next) => {
+    res.locals.currUser = req.user;
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
-    res.locals.currUser = req.user;
     //console.log(res.locals.success);
     next();
 });
