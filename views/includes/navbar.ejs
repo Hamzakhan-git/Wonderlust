@@ -1,25 +1,51 @@
 <style>
-  .search-btn {
-    background-color: #fe424d;
-    color: #fff;
-    border-radius: 25px;
-    padding: 0 1rem 0 1rem;
-  }
-  .search-btn:hover {
-    background-color: #fe424d;
-    color: #fff;
-  }
-  .search-btn i {
-    display: inline;
-    margin-right: 0.5rem;
-  }
-  .search-inp {
-    border-radius: 25px;
-    padding: 0.5rem 3rem 0.5rem 3rem;
-    font-size: 1rem;
+  /* MOBILE NAVBAR STYLES */
+  @media (max-width: 768px) {
+    /* Hamburger-expanded background */
+    .navbar-collapse.show {
+      background-color: rgba(255, 255, 255, 0.85); /* semi-transparent white */
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+
+    /* Search button styling */
+    .search-btn {
+      background-color: #fe424d;
+      color: #fff;
+      border-radius: 25px;
+      padding: 0 1rem;
+      transition: opacity 0.2s ease;
+    }
+
+    .search-btn:hover {
+      background-color: #fe424d;
+      color: #fff;
+    }
+
+    .search-btn i {
+      display: inline;
+      margin-right: 0.5rem;
+    }
+
+    /* Search input styling */
+    .search-inp {
+      border-radius: 25px;
+      padding: 0.5rem 3rem;
+      font-size: 1rem;
+    }
+
+    /* Press/active effects on key navbar elements */
+    .nav-link:active,
+    .search-btn:active,
+    .navbar-brand:active,
+    .form-control:active {
+      opacity: 0.6;
+    }
   }
 </style>
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+
+
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top collapse navbar-collapse" id="navbarNavAltMarkup">
   <div class="container-fluid">
     <a  href="/listings"><i class="fa-regular fa-compass"></i></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" >
