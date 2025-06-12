@@ -24,11 +24,6 @@
     margin: 0 2rem;
   }
 
-  .search-bar form {
-    display: flex;
-    align-items: center;
-  }
-
   .search-inp {
     border-radius: 25px;
     padding: 0.5rem 1rem;
@@ -52,59 +47,70 @@
   }
 
   @media (max-width: 768px) {
-    .search-bar {
-      order: 3;
-      width: 100%;
-      margin: 1rem 0;
+    .search-bar-desktop {
+      display: none;
     }
+    .navbar-collapse {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 1rem;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
 
-    .search-btn {
-      font-size: 0.85rem;
-    }
+  .navbar-collapse .nav-link {
+    padding: 0.5rem 1rem;
+    color: #333;
+  }
+
+  .navbar-collapse .form-control,
+  .navbar-collapse .btn {
+    width: 100%;
+  }
   }
 </style>
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
 
-    <!-- Left: Logo + Explore -->
+    <!-- Logo + Explore -->
     <a href="/listings" class="navbar-brand">
       <i class="fa-regular fa-compass text-danger"></i>
       <span>Explore</span>
     </a>
 
-    <!-- Center: Search Bar (desktop only) -->
-    <div class="search-bar d-none d-md-block">
-      <form action="/listings/search" method="GET">
+    <!-- Search Bar (Desktop only) -->
+    <div class="search-bar search-bar-desktop d-none d-md-block">
+      <form action="/listings/search" method="GET" class="d-flex align-items-center">
         <input class="form-control search-inp" type="search" name="q" placeholder="Search destination" required />
-        <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+        <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
     </div>
 
-    <!-- Hamburger Menu (mobile only) -->
+    <!-- Hamburger Toggle -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Right: Links -->
+    <!-- Collapsible Nav -->
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="/listings/new">Airbnb your home</a>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item d-md-none">
+          <!-- Search Bar inside hamburger menu for mobile -->
+          <form action="/listings/search" method="GET" class="d-flex align-items-center my-2 px-2">
+            <input class="form-control search-inp" type="search" name="q" placeholder="Search destination" required />
+            <button class="btn search-btn ms-2" type="submit">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </form>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="/listings/new">Airbnb your home</a></li>
         <% if (!currUser) { %>
-          <a class="nav-link" href="/signup"><b>Sign Up</b></a>
-          <a class="nav-link" href="/login"><b>Login</b></a>
+          <li class="nav-item"><a class="nav-link" href="/signup"><b>Sign Up</b></a></li>
+          <li class="nav-item"><a class="nav-link" href="/login"><b>Login</b></a></li>
         <% } else { %>
-          <a class="nav-link" href="/logout"><b>Log Out</b></a>
+          <li class="nav-item"><a class="nav-link" href="/logout"><b>Log Out</b></a></li>
         <% } %>
-      </div>
+      </ul>
     </div>
-  </div>
-
-  <!-- Mobile Search Bar -->
-  <div class="container d-md-none mt-2 px-3">
-    <form class="d-flex" action="/listings/search" method="GET">
-      <input class="form-control search-inp me-2" type="search" name="q" placeholder="Search destination" required />
-      <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-    </form>
   </div>
 </nav>
