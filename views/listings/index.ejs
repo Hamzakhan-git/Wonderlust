@@ -1,194 +1,120 @@
 <% layout("/layouts/boilerplate") %>
 
 <style>
-  .filters-container {
-    position: relative;
-    padding: 15px;
-    background: white;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  #filters {
+  #filters-wrapper {
     display: flex;
+    align-items: center;
     overflow-x: auto;
+    white-space: nowrap;
+    padding: 0.5rem 1rem;
+    background-color: #fff;
+    position: relative;
     scrollbar-width: none;
-    padding-bottom: 10px;
     -ms-overflow-style: none;
   }
-  
-  #filters::-webkit-scrollbar {
+
+  #filters-wrapper::-webkit-scrollbar {
     display: none;
   }
-  
-  .filter {
-    text-align: center;
-    margin-right: 1.5rem;
-    min-width: 70px;
-    flex-shrink: 0;
-    opacity: 0.7;
+
+  #filters {
+    display: flex;
+    flex-wrap: nowrap;
   }
-  
+
+  .filter {
+    display: inline-block;
+    text-align: center;
+    margin: 0 1rem;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    flex: 0 0 auto;
+  }
+
   .filter:hover {
     opacity: 1;
     cursor: pointer;
   }
-  
-  .filter div i {
-    font-size: 24px;
-    margin-bottom: 5px;
-    color: #717171;
+
+  .filter i {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
   }
-  
+
   .filter p {
-    font-size: 0.75rem;
-    color: #222;
-    font-weight: 500;
+    font-size: 0.8rem;
     margin: 0;
   }
-  
+
+  #filters a {
+    text-decoration: none;
+    color: inherit;
+  }
+
   .tax-toggle {
-    position: sticky;
-    right: 0;
-    background: white;
-    padding-left: 15px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    z-index: 10;
-  }
-  
-  .tax-toggle-mobile {
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    height: 36px;
-    padding: 0 12px;
-    display: flex;
-    align-items: center;
-    background: white;
-    font-size: 0.8rem;
-    font-weight: 500;
+    margin-left: auto;
+    margin-right: 1rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
     white-space: nowrap;
+    flex-shrink: 0;
   }
-  
-  .section-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 20px 15px 15px;
-    color: #222;
+
+  .tax-toggle label {
+    margin-left: 0.5rem;
+    font-size: 0.85rem;
   }
-  
-  .listing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
-    padding: 0 15px 20px;
-  }
-  
-  /* Responsive adjustments */
-  @media (min-width: 768px) {
-    .tax-toggle-mobile {
-      display: none;
-    }
-    
-    #filters {
-      flex-wrap: wrap;
-      overflow-x: visible;
-    }
-    
+
+  @media (max-width: 768px) {
     .filter {
-      margin-right: 2rem;
-      margin-top: 1rem;
+      margin: 0 0.5rem;
     }
-    
+
+    .filter i {
+      font-size: 1rem;
+    }
+
+    .filter p {
+      font-size: 0.75rem;
+    }
+
     .tax-toggle {
-      position: static;
-      padding-left: 2rem;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.75rem;
+      margin-left: 1rem;
     }
-  }
-  
-  @media (max-width: 767px) {
-    .desktop-tax {
+
+    .tax-toggle label {
       display: none;
     }
   }
 </style>
 
-<div class="filter-bar-container">
-<div id="filters">
-  <div class="filter">
-    <a href="/listings/search?q=Trending" class="filter">
-    <div><i class="fa-solid fa-fire"></i></div>
-    <p>Trending</p>
-    </a>
+<div id="filters-wrapper">
+  <div id="filters">
+    <div class="filter"><a href="/listings/search?q=Trending"><div><i class="fa-solid fa-fire"></i></div><p>Trending</p></a></div>
+    <div class="filter"><a href="/listings/search?q=Rooms"><div><i class="fa-solid fa-bed"></i></div><p>Rooms</p></a></div>
+    <div class="filter"><a href="/listings/search?q=Iconic Cities"><div><i class="fa-solid fa-mountain-city"></i></div><p>Iconic Cities</p></a></div>
+    <div class="filter"><a href="/listings/search?q=Mountains"><div><i class="fa-solid fa-mountain"></i></div><p>Mountains</p></a></div>
+    <div class="filter"><a href="/listings/search?q=Castles"><div><i class="fa-brands fa-fort-awesome"></i></div><p>Castles</p></a></div>
+    <div class="filter"><a href="/listings/search?q=Amazing Pools"><div><i class="fa-solid fa-person-swimming"></i></div><p>Amazing Pools</p></a></div>
+    <div class="filter"><a href="/listings/search?q=Camping"><div><i class="fa-solid fa-campground"></i></div><p>Camping</p></a></div>
+    <div class="filter"><a href="/listings/search?q=Farms"><div><i class="fa-solid fa-cow"></i></div><p>Farms</p></a></div>
+    <div class="filter"><a href="/listings/search?q=Arctic"><div><i class="fa-solid fa-snowflake"></i></div><p>Arctic</p></a></div>
+    <div class="filter"><a href="/listings/search?q=Domes"><div><i class="fa-solid fa-igloo"></i></div><p>Domes</p></a></div>
+    <div class="filter"><a href="/listings/search?q=Boats"><div><i class="fa-solid fa-ship"></i></div><p>Boats</p></a></div>
   </div>
-  <div class="filter">
-    <a href="/listings/search?q=Rooms" class="filter">
-    <div><i class="fa-solid fa-bed"></i></div>
-    <p>Rooms</p>
-    </a>
-  </div>
-  <div class="filter">
-    <a href="/listings/search?q=Iconic Cities" class="filter">
-    <div><i class="fa-solid fa-mountain-city"></i></div>
-    <p>Iconic Cities</p>
-    </a>
-  </div>
-  <div class="filter">
-    <a href="/listings/search?q=Mountains" class="filter">
-    <div><i class="fa-solid fa-mountain"></i></div>
-    <p>Mountains</p>
-    </a>
-  </div>
-  <div class="filter">
-    <a href="/listings/search?q=Castles" class="filter">
-    <div><i class="fa-brands fa-fort-awesome"></i></div>
-    <p>Castles</p>
-    </a>
-  </div>
-  <div class="filter">
-    <a href="/listings/search?q=Amazing Pools" class="filter">
-    <div><i class="fa-solid fa-person-swimming"></i></div>
-    <p>Amazing Pools</p>
-    </a>
-  </div>
-  <div class="filter">
-    <a href="/listings/search?q=Camping" class="filter">
-    <div><i class="fa-solid fa-campground"></i></div>
-    <p>Camping</p>
-    </a>
-  </div>
-  <div class="filter">
-    <a href="/listings/search?q=Farms" class="filter">
-    <div><i class="fa-solid fa-cow"></i></div>
-    <p>Farms</p>
-    </a>
-  </div>
-  <div class="filter">
-    <a href="/listings/search?q=Arctic" class="filter">
-    <div><i class="fa-solid fa-snowflake"></i></div>
-    <p>Arctic</p>
-    </a>
-  </div>
-  <div class="filter">
-    <a href="/listings/search?q=Domes" class="filter">
-    <div><i class="fa-solid fa-igloo"></i></div>
-    <p>Domes</p>
-    </a>
-  </div>
-  <div class="filter">
-    <a href="/listings/search?q=Boats" class="filter">
-    <div><i class="fa-solid fa-ship"></i></div>
-    <p>Boats</p>
-    </a>
-  </div>
-</div>
+
   <div class="tax-toggle">
-    <div class="form-check-reverse form-switch">
-  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-  <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
-</div>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+      <label class="form-check-label" for="flexSwitchCheckDefault">Display tax</label>
+    </div>
   </div>
 </div>
+
 
 
     <% if (searchQuery) { %>
