@@ -1,88 +1,45 @@
 <% layout("/layouts/boilerplate") %>
 
 <style>
-  .filter-bar-container {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    padding: 0.5rem 1rem;
-    overflow-x: hidden;
-  }
+#filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter {
+  text-align: center;
+  margin-right:  2rem;
+  margin-top: 2rem;
+  opacity: 0.7;
+}
+.filter:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+.filter p {
+font-size: 0.8rem;
+}
 
-  #filters {
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    flex-grow: 1;
-  }
+.tax-info {
+  display: none;
+}
+.tax-toggle {
+  border: 1px solid black;
+  border-radius: 1rem;
+  height: 2.5rem;
+  padding: 1rem;
+  margin-left: 2rem;
+  display: flex;
+  align-items: center;
 
-  #filters::-webkit-scrollbar {
-    display: none;
-  }
+}
+#filters a {
+  text-decoration: none;
+  color: inherit;
+}
 
-  .filter {
-    display: inline-block;
-    text-align: center;
-    margin: 0 0.75rem;
-    opacity: 0.7;
-    transition: opacity 0.2s ease;
-    flex: 0 0 auto;
-  }
-
-  .filter:active {
-    opacity: 0.4;
-  }
-
-  .filter:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-
-  .filter i {
-    font-size: 1.2rem;
-    margin-bottom: 0.2rem;
-  }
-
-  .filter p {
-    font-size: 0.8rem;
-    margin: 0;
-  }
-
-  .tax-toggle {
-    display: flex;
-    align-items: center;
-    border: 1px solid black;
-    border-radius: 1rem;
-    padding: 0.5rem 1rem;
-    margin-left: 1rem;
-    flex-shrink: 0;
-    white-space: nowrap;
-  }
-
-  /* Responsive icon bar tweaks */
-  @media (max-width: 768px) {
-    .filter {
-      margin: 0 0.5rem;
-    }
-
-    .filter i {
-      font-size: 1rem;
-    }
-
-    .filter p {
-      font-size: 0.7rem;
-    }
-
-    .tax-toggle {
-      padding: 0.25rem 0.75rem;
-      font-size: 0.8rem;
-    }
-  }
 </style>
 
-<div class="filter-bar-container">
 <div id="filters">
   <div class="filter">
     <a href="/listings/search?q=Trending" class="filter">
@@ -150,7 +107,6 @@
     <p>Boats</p>
     </a>
   </div>
-  </div>
 
   <div class="tax-toggle">
     <div class="form-check-reverse form-switch">
@@ -159,6 +115,7 @@
 </div>
   </div>
 </div>
+)
 
     <% if (searchQuery) { %>
   <h3>Showing results for "<%= searchQuery %>"</h3>
