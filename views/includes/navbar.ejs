@@ -1,6 +1,6 @@
 <style>
   .navbar {
-    padding: 0.7rem 1rem;
+    padding: 0.8rem 1.5rem;
   }
 
   .navbar-brand {
@@ -10,10 +10,18 @@
     font-weight: 500;
   }
 
+  .navbar-brand i {
+    font-size: 1.4rem;
+  }
+
+  .navbar-brand span {
+    font-size: 1.1rem;
+  }
+
   .search-bar {
-    flex-grow: 1;
+    flex: 1;
     max-width: 500px;
-    margin: 0 auto;
+    margin: 0 2rem;
   }
 
   .search-bar form {
@@ -24,21 +32,23 @@
   .search-inp {
     border-radius: 25px;
     padding: 0.5rem 1rem;
-    flex-grow: 1;
+    width: 100%;
     font-size: 0.95rem;
   }
 
   .search-btn {
     background-color: #fe424d;
-    color: #fff;
+    color: white;
     border-radius: 25px;
     padding: 0.5rem 1rem;
     margin-left: 0.5rem;
     white-space: nowrap;
   }
 
-  .search-btn:hover {
-    background-color: #fe424d;
+  .navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 
   @media (max-width: 768px) {
@@ -46,12 +56,6 @@
       order: 3;
       width: 100%;
       margin: 1rem 0;
-    }
-
-    .navbar-collapse.show {
-      background-color: rgba(255, 255, 255, 0.95);
-      border-radius: 0.5rem;
-      padding: 1rem;
     }
 
     .search-btn {
@@ -64,37 +68,26 @@
   <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
 
     <!-- Left: Logo + Explore -->
-    <div class="d-flex align-items-center">
-      <a href="/listings" class="navbar-brand">
-        <i class="fa-regular fa-compass fs-4 text-danger"></i>
-        <span class="ms-1">Explore</span>
-      </a>
-    </div>
+    <a href="/listings" class="navbar-brand">
+      <i class="fa-regular fa-compass text-danger"></i>
+      <span>Explore</span>
+    </a>
 
-    <!-- Center: Search bar (visible on desktop only) -->
+    <!-- Center: Search Bar (desktop only) -->
     <div class="search-bar d-none d-md-block">
-      <form role="search" action="/listings/search" method="GET">
+      <form action="/listings/search" method="GET">
         <input class="form-control search-inp" type="search" name="q" placeholder="Search destination" required />
         <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
       </form>
     </div>
 
-    <!-- Right: Hamburger menu (mobile) -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+    <!-- Hamburger Menu (mobile only) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse w-100" id="navbarNavAltMarkup">
-      <!-- Search bar for mobile -->
-      <div class="search-bar d-md-none">
-        <form role="search" action="/listings/search" method="GET">
-          <input class="form-control search-inp" type="search" name="q" placeholder="Search destination" required />
-          <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
-        </form>
-      </div>
-
-      <!-- Nav links -->
+    <!-- Right: Links -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <div class="navbar-nav ms-auto">
         <a class="nav-link" href="/listings/new">Airbnb your home</a>
         <% if (!currUser) { %>
@@ -105,5 +98,13 @@
         <% } %>
       </div>
     </div>
+  </div>
+
+  <!-- Mobile Search Bar -->
+  <div class="container d-md-none mt-2 px-3">
+    <form class="d-flex" action="/listings/search" method="GET">
+      <input class="form-control search-inp me-2" type="search" name="q" placeholder="Search destination" required />
+      <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </form>
   </div>
 </nav>
