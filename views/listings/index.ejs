@@ -1,86 +1,116 @@
 <% layout("/layouts/boilerplate") %>
 
 <style>
-.filter-bar-container {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    padding: 0.5rem 1rem;
-    overflow-x: hidden;
+  .filters-container {
+    position: relative;
+    padding: 15px;
+    background: white;
+    border-bottom: 1px solid #ddd;
   }
-
+  
   #filters {
     display: flex;
     overflow-x: auto;
-    white-space: nowrap;
     scrollbar-width: none;
+    padding-bottom: 10px;
     -ms-overflow-style: none;
-    flex-grow: 1;
   }
-
+  
   #filters::-webkit-scrollbar {
     display: none;
   }
-
+  
   .filter {
-    display: inline-block;
     text-align: center;
-    margin: 0 0.75rem;
+    margin-right: 1.5rem;
+    min-width: 70px;
+    flex-shrink: 0;
     opacity: 0.7;
-    transition: opacity 0.2s ease;
-    flex: 0 0 auto;
   }
-
-  .filter:active {
-    opacity: 0.4;
-  }
-
+  
   .filter:hover {
     opacity: 1;
     cursor: pointer;
   }
-
-  .filter i {
-    font-size: 1.2rem;
-    margin-bottom: 0.2rem;
+  
+  .filter div i {
+    font-size: 24px;
+    margin-bottom: 5px;
+    color: #717171;
   }
-
+  
   .filter p {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    color: #222;
+    font-weight: 500;
     margin: 0;
   }
-
+  
   .tax-toggle {
+    position: sticky;
+    right: 0;
+    background: white;
+    padding-left: 15px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
-    border: 1px solid black;
-    border-radius: 1rem;
-    padding: 0.5rem 1rem;
-    margin-left: 1rem;
-    flex-shrink: 0;
+    z-index: 10;
+  }
+  
+  .tax-toggle-mobile {
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    height: 36px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    background: white;
+    font-size: 0.8rem;
+    font-weight: 500;
     white-space: nowrap;
   }
-
-  /* Responsive icon bar tweaks */
-  @media (max-width: 768px) {
+  
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 20px 15px 15px;
+    color: #222;
+  }
+  
+  .listing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 0 15px 20px;
+  }
+  
+  /* Responsive adjustments */
+  @media (min-width: 768px) {
+    .tax-toggle-mobile {
+      display: none;
+    }
+    
+    #filters {
+      flex-wrap: wrap;
+      overflow-x: visible;
+    }
+    
     .filter {
-      margin: 0 0.5rem;
+      margin-right: 2rem;
+      margin-top: 1rem;
     }
-
-    .filter i {
-      font-size: 1rem;
-    }
-
-    .filter p {
-      font-size: 0.7rem;
-    }
-
+    
     .tax-toggle {
-      padding: 0.25rem 0.75rem;
-      font-size: 0.8rem;
+      position: static;
+      padding-left: 2rem;
     }
   }
-
+  
+  @media (max-width: 767px) {
+    .desktop-tax {
+      display: none;
+    }
+  }
 </style>
 
 <div class="filter-bar-container">
