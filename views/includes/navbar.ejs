@@ -1,8 +1,19 @@
 <style>
+  .navbar {
+    padding: 0.7rem 1rem;
+  }
+
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+  }
+
   .search-bar {
     flex-grow: 1;
     max-width: 500px;
-    margin: 0 1rem;
+    margin: 0 auto;
   }
 
   .search-bar form {
@@ -52,10 +63,15 @@
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
 
-    <!-- Brand logo -->
-    <a href="/listings" class="navbar-brand"><i class="fa-regular fa-compass"></i></a>
+    <!-- Left: Logo + Explore -->
+    <div class="d-flex align-items-center">
+      <a href="/listings" class="navbar-brand">
+        <i class="fa-regular fa-compass fs-4 text-danger"></i>
+        <span class="ms-1">Explore</span>
+      </a>
+    </div>
 
-    <!-- Search bar (centered in navbar) -->
+    <!-- Center: Search bar (visible on desktop only) -->
     <div class="search-bar d-none d-md-block">
       <form role="search" action="/listings/search" method="GET">
         <input class="form-control search-inp" type="search" name="q" placeholder="Search destination" required />
@@ -63,14 +79,14 @@
       </form>
     </div>
 
-    <!-- Hamburger menu -->
+    <!-- Right: Hamburger menu (mobile) -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- Collapsible content -->
     <div class="collapse navbar-collapse w-100" id="navbarNavAltMarkup">
-      <!-- Search in mobile view -->
+      <!-- Search bar for mobile -->
       <div class="search-bar d-md-none">
         <form role="search" action="/listings/search" method="GET">
           <input class="form-control search-inp" type="search" name="q" placeholder="Search destination" required />
@@ -79,18 +95,12 @@
       </div>
 
       <!-- Nav links -->
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings">Explore</a>
-      </div>
-
-      <!-- Right side -->
       <div class="navbar-nav ms-auto">
         <a class="nav-link" href="/listings/new">Airbnb your home</a>
         <% if (!currUser) { %>
           <a class="nav-link" href="/signup"><b>Sign Up</b></a>
           <a class="nav-link" href="/login"><b>Login</b></a>
-        <% } %>
-        <% if (currUser) { %>
+        <% } else { %>
           <a class="nav-link" href="/logout"><b>Log Out</b></a>
         <% } %>
       </div>
