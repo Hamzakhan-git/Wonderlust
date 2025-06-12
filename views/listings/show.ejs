@@ -73,14 +73,16 @@
 
     <% if(listing.reviews.length > 0) { %>
     <div class="row justify-content-center mt-4">
-        <div class="col-lg-8 col-md-10 col-sm-12">
+        <div class="col-12 text-center">
             <hr>
-            <p><b>All Reviews</b></p>
+            <h4>All Reviews</h4>
         </div>
+    </div>
 
+    <div class="row justify-content-center gx-4 gy-4">
         <% for(let review of listing.reviews) { %>
-        <div class="col-sm-10 col-md-5 col-lg-4 mb-3">
-            <div class="card h-100">
+        <div class="col-12 col-sm-10 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">@<%= review.author.username %></h5>
                     <p class="card-text"><%= review.comment %></p>
@@ -94,7 +96,8 @@
         </div>
         <% } %>
     </div>
-    <% } %>
+<% } %>
+
 
     <div class="row justify-content-center mt-4">
         <div class="col-lg-8 col-md-10 col-sm-12">
