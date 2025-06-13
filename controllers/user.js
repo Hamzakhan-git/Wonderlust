@@ -10,44 +10,44 @@ module.exports.signup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    const user = new User({ username, email });
+    // Create user instance without saving
+    const user = new User({ username, email, isVerified: false });
 
-    // Register with passport-local-mongoose
-    await User.register(user, password);
+    // Register user with password
+    const registeredUser = await User.register(user, password);
 
-    // Generate token and expiry
-    user.verifyToken = crypto.randomBytes(32).toString("hex");
-    user.verifyTokenExpires = Date.now() + 1000 * 60 * 60; // 1 hour
-    await user.save(); // ✅ Save token info in DB
+    // Generate verification token
+    const verifyToken = crypto.randomBytes(32).toString("hex");
+    registeredUser.verifyToken = verifyToken;
+    registeredUser.verifyTokenExpires = Date.now() + 3600000; // 1 hour
 
-    const link = `https://wonderlust-u1lx.onrender.com/verify-email/${user.verifyToken}`;
-;
+    await registeredUser.save(); // 🔴 Save before sending email
 
-    // Configure email transporter
+    // Verification link
+    const verifyLink = `https://yourdomain.com/verify-email/${verifyToken}`;
+
+    // Send email
     const transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
+      },
     });
 
-    const mailOptions = {
-      from: '"WonderLust" <no-reply@wonderlust.com>',
-      to: user.email,
-      subject: "Verify your email",
-      html: `<p>Hello ${user.username},</p>
-             <p>Please click the link below to verify your email:</p>
-             <a href="${link}">${link}</a>`
-    };
-
-    await transporter.sendMail(mailOptions);
+    await transporter.sendMail({
+      to: registeredUser.email,
+      subject: "Verify your WonderLust account",
+      html: `<p>Hi ${username},</p>
+             <p>Click the link below to verify your email:</p>
+             <a href="${verifyLink}">${verifyLink}</a>`,
+    });
 
     req.flash("success", "Verification email sent! Please check your inbox.");
     res.redirect("/login");
   } catch (err) {
     console.error("Signup error:", err);
-    req.flash("error", err.message);
+    req.flash("error", "Something went wrong during signup.");
     res.redirect("/signup");
   }
 };
@@ -92,7 +92,7 @@ module.exports.verifyEmail = async (req, res) => {
 
     const user = await User.findOne({
       verifyToken: token,
-      verifyTokenExpires: { $gt: Date.now() }
+      verifyTokenExpires: { $gt: Date.now() },
     });
 
     if (!user) {
@@ -100,9 +100,15 @@ module.exports.verifyEmail = async (req, res) => {
       return res.redirect("/signup");
     }
 
+    if (user.isVerified) {
+      req.flash("info", "Your email is already verified. Please log in.");
+      return res.redirect("/login");
+    }
+
     user.isVerified = true;
     user.verifyToken = undefined;
     user.verifyTokenExpires = undefined;
+
     await user.save();
 
     req.flash("success", "Email verified! You can now log in.");
@@ -113,6 +119,7 @@ module.exports.verifyEmail = async (req, res) => {
     res.redirect("/signup");
   }
 };
+
 //Google Oauth
 module.exports.googleCallback = (req, res) => {
   req.flash("success", "Logged in with Google!");
