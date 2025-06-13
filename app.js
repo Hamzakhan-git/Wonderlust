@@ -19,6 +19,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./models/user.js");
+const homeRoutes = require("./routes/home");
+
+
 
 //const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 const dbUrl = process.env.ATLASDB_URL;
@@ -138,7 +141,7 @@ passport.use(new GoogleStrategy({
 
 
 
-
+app.use("/", homeRoutes);
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews",reviewRouter);
 app.use("/", userRouter);

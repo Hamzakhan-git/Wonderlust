@@ -1,0 +1,53 @@
+<% layout("layouts/boilerplate") %>
+
+<style>
+  .landing-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 1rem;
+    text-align: center;
+    min-height: 100vh;
+    background: url('/images/landing-bg.jpg') center/cover no-repeat;
+    color: white;
+  }
+
+  .landing-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+  }
+
+  .landing-btn {
+    background-color: #fe424d;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .landing-btn:hover {
+    background-color: #c5343d;
+  }
+
+  @media (max-width: 768px) {
+    .landing-title {
+      font-size: 2rem;
+    }
+    .landing-btn {
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+    }
+  }
+</style>
+
+<div class="landing-container">
+  <h1 class="landing-title">Welcome to WonderLust</h1>
+  <p>Discover amazing destinations and unique stays</p>
+  <a href="/listings" class="landing-btn">Explore Now</a>
+</div>
