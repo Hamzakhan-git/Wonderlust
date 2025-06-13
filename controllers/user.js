@@ -47,7 +47,7 @@ module.exports.signup = async (req, res) => {
     res.redirect("/login");
   } catch (err) {
     console.error("Signup error:", err);
-    req.flash("error", "Something went wrong during signup.");
+    req.flash("error", err.message);
     res.redirect("/signup");
   }
 };
