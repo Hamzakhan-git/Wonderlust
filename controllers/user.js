@@ -103,11 +103,11 @@ module.exports.verifyEmail = async (req, res) => {
     });
 
     // ❗ Critical fix: if user not found, exit before any update
-    if (!user) {
-      console.log("No user found or token expired.");
-      req.flash("error", "Verification token is invalid or has expired.");
-      return res.redirect("/signup");
-    }
+    // if (!user) {
+    //   console.log("No user found or token expired.");
+    //   req.flash("error", "Verification token is invalid or has expired.");
+    //   return res.redirect("/signup");
+    // }
 
     // Only now mark user as verified
     user.isVerified = true;
