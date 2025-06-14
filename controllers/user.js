@@ -93,33 +93,32 @@ module.exports.Logout = (req, res) => {
 // ADD THIS: Handles the email verification route
 module.exports.verifyEmail = async (req, res) => {
   try {
-    const token = req.params.token;
+    const token = decodeURIComponent(req.params.token);
+
     console.log("Token received:", token);
 
     const user = await User.findOne({
       verifyToken: token,
-      verifyTokenExpires: { $gt: Date.now() },
-      isVerified: false
+      verifyTokenExpires: { $gt: Date.now() }
     });
 
-    // ❗ Critical fix: if user not found, exit before any update
-    // if (!user) {
-    //   console.log("No user found or token expired.");
-    //   req.flash("error", "Verification token is invalid or has expired.");
-    //   return res.redirect("/signup");
-    // }
+    console.log("User found:", user);
 
-    // Only now mark user as verified
+    if (!user) {
+      req.flash("error", "Verification link is invalid or has expired.");
+      return res.redirect("/signup");
+    }
+
     user.isVerified = true;
     user.verifyToken = undefined;
     user.verifyTokenExpires = undefined;
     await user.save();
 
-    console.log("User verified:", user.username);
     req.flash("success", "Email verified! You can now log in.");
     res.redirect("/login");
+
   } catch (err) {
-    console.error("Verification Error:", err);
+    console.error("Verification error:", err);
     req.flash("error", "Something went wrong.");
     res.redirect("/signup");
   }
