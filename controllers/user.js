@@ -91,38 +91,38 @@ module.exports.Logout = (req, res) => {
 };
 
 // ADD THIS: Handles the email verification route
-module.exports.verifyEmail = async (req, res) => {
-  try {
-    const token = decodeURIComponent(req.params.token);
+// module.exports.verifyEmail = async (req, res) => {
+//   try {
+//     const token = decodeURIComponent(req.params.token);
 
-    console.log("Token received:", token);
+//     console.log("Token received:", token);
 
-    const user = await User.findOne({
-      verifyToken: token,
-      verifyTokenExpires: { $gt: Date.now() }
-    });
+//     const user = await User.findOne({
+//       verifyToken: token,
+//       verifyTokenExpires: { $gt: Date.now() }
+//     });
 
-    console.log("User found:", user);
+//     console.log("User found:", user);
 
-    if (!user) {
-      req.flash("error", "Verification link is invalid or has expired.");
-      return res.redirect("/signup");
-    }
+//     if (!user) {
+//       req.flash("error", "Verification link is invalid or has expired.");
+//       return res.redirect("/signup");
+//     }
 
-    user.isVerified = true;
-    user.verifyToken = undefined;
-    user.verifyTokenExpires = undefined;
-    await user.save();
+//     user.isVerified = true;
+//     user.verifyToken = undefined;
+//     user.verifyTokenExpires = undefined;
+//     await user.save();
 
-    req.flash("success", "Email verified! You can now log in.");
-    res.redirect("/login");
+//     req.flash("success", "Email verified! You can now log in.");
+//     res.redirect("/login");
 
-  } catch (err) {
-    console.error("Verification error:", err);
-    req.flash("error", "Something went wrong.");
-    res.redirect("/signup");
-  }
-};
+//   } catch (err) {
+//     console.error("Verification error:", err);
+//     req.flash("error", "Something went wrong.");
+//     res.redirect("/signup");
+//   }
+// };
 
 //Google Oauth
 module.exports.googleCallback = (req, res) => {

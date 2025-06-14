@@ -37,37 +37,38 @@ router.get("/auth/google/callback",
 
 router.get("/verify-email/:token", async (req, res) => {
   try {
-    const token = req.params.token;
+    const { token } = req.params;
+    console.log("🔍 Incoming token:", token);
 
-    // Find user by token AND check expiry in the same query
+    // Combine token + expiry check in one query
     const user = await User.findOne({
       verifyToken: token,
-      verifyTokenExpires: { $gt: Date.now() }
+      verifyTokenExpires: { $gt: Date.now() },
+      isVerified: false,
     });
 
     if (!user) {
+      console.log("❌ No matching user found or token expired");
       req.flash("error", "Verification link is invalid or has expired.");
       return res.redirect("/signup");
     }
 
-    if (user.isVerified) {
-      req.flash("info", "Your email is already verified. Please log in.");
-      return res.redirect("/login");
-    }
-
-    // Mark user as verified
+    // Mark as verified
     user.isVerified = true;
     user.verifyToken = undefined;
     user.verifyTokenExpires = undefined;
     await user.save();
 
+    console.log("✅ Email verified for:", user.email);
+
     req.flash("success", "Email verified! You can now log in.");
-    res.redirect("/login");
+    return res.redirect("/login");
   } catch (err) {
-    console.error("Verification Error:", err);
-    req.flash("error", "An error occurred during verification.");
-    res.redirect("/signup");
+    console.error("🔥 Error in verify-email:", err);
+    req.flash("error", "An error occurred during email verification.");
+    return res.redirect("/signup");
   }
 });
+
 
 module.exports = router;
