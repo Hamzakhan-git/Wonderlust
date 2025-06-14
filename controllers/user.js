@@ -98,7 +98,8 @@ module.exports.verifyEmail = async (req, res) => {
 
     const user = await User.findOne({
       verifyToken: token,
-      verifyTokenExpires: { $gt: Date.now() }
+      verifyTokenExpires: { $gt: Date.now() },
+      isVerified: false
     });
 
     // ❗ Critical fix: if user not found, exit before any update
