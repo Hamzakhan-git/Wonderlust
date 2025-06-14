@@ -2,6 +2,8 @@ const User = require("../models/user.js");
 const crypto = require("crypto");
 const { sendVerificationEmail } = require("../utils/sendVerificationEmail.js");
 const nodemailer = require("nodemailer");
+require('dotenv').config();
+
 
 
 // controllers/user.js
