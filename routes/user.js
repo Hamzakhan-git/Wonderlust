@@ -40,35 +40,47 @@ router.get("/verify-email/:token", async (req, res) => {
     const { token } = req.params;
     console.log("🔍 Incoming token:", token);
 
-    // Combine token + expiry check in one query
-    const user = await User.findOne({
+    // First: try to find the user with unexpired token
+    let user = await User.findOne({
       verifyToken: token,
-      verifyTokenExpires: { $gt: Date.now() },
-      isVerified: false,
+      verifyTokenExpires: { $gt: Date.now() }
     });
 
-    if (!user) {
-      console.log("❌ No matching user found or token expired");
-      req.flash("error", "Verification link is invalid or has expired.");
-      return res.redirect("/signup");
+    if (user) {
+      if (!user.isVerified) {
+        // ✅ First-time verification
+        user.isVerified = true;
+        user.verifyToken = undefined;
+        user.verifyTokenExpires = undefined;
+        await user.save();
+        console.log("✅ Email verified for:", user.email);
+        req.flash("success", "Email verified! You can now log in.");
+        return res.redirect("/login");
+      } else {
+        // 🔁 Token reused after verified
+        req.flash("info", "Your email is already verified. Please log in.");
+        return res.redirect("/login");
+      }
     }
 
-    // Mark as verified
-    user.isVerified = true;
-    user.verifyToken = undefined;
-    user.verifyTokenExpires = undefined;
-    await user.save();
+    // Else, check if already verified but token expired or deleted
+    user = await User.findOne({ verifyToken: token }) || await User.findOne({ isVerified: true });
+    if (user?.isVerified) {
+      req.flash("info", "Your email is already verified. Please log in.");
+      return res.redirect("/login");
+    }
 
-    console.log("✅ Email verified for:", user.email);
+    // If not verified and token invalid
+    req.flash("error", "Verification link is invalid or has expired.");
+    return res.redirect("/signup");
 
-    req.flash("success", "Email verified! You can now log in.");
-    return res.redirect("/login");
   } catch (err) {
     console.error("🔥 Error in verify-email:", err);
     req.flash("error", "An error occurred during email verification.");
     return res.redirect("/signup");
   }
 });
+
 
 
 module.exports = router;
