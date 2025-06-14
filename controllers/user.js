@@ -101,16 +101,20 @@ module.exports.verifyEmail = async (req, res) => {
       verifyTokenExpires: { $gt: Date.now() }
     });
 
+    // ❗ Critical fix: if user not found, exit before any update
     if (!user) {
+      console.log("No user found or token expired.");
       req.flash("error", "Verification token is invalid or has expired.");
       return res.redirect("/signup");
     }
 
+    // Only now mark user as verified
     user.isVerified = true;
     user.verifyToken = undefined;
     user.verifyTokenExpires = undefined;
     await user.save();
 
+    console.log("User verified:", user.username);
     req.flash("success", "Email verified! You can now log in.");
     res.redirect("/login");
   } catch (err) {
@@ -119,6 +123,7 @@ module.exports.verifyEmail = async (req, res) => {
     res.redirect("/signup");
   }
 };
+
 //Google Oauth
 module.exports.googleCallback = (req, res) => {
   req.flash("success", "Logged in with Google!");
