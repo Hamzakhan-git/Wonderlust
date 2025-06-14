@@ -104,10 +104,10 @@ module.exports.verifyEmail = async (req, res) => {
 
     console.log("User found:", user);
 
-    if (!user) {
-      req.flash("error", "Verification link is invalid or has expired.");
-      return res.redirect("/signup");
-    }
+    // if (!user) {
+    //   req.flash("error", "Verification link is invalid or has expired.");
+    //   return res.redirect("/signup");
+    // }
 
     user.isVerified = true;
     user.verifyToken = undefined;

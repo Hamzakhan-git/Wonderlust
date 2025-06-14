@@ -43,10 +43,10 @@ router.get("/verify-email/:token", async (req, res) => {
     const user = await User.findOne({ verifyToken: token });
 
     // If no user found with the token, show error
-    if (!user) {
-      req.flash("error", "Verification link is invalid or has expired.");
-      return res.redirect("/signup");
-    }
+    // if (!user) {
+    //   req.flash("error", "Verification link is invalid or has expired.");
+    //   return res.redirect("/signup");
+    // }
 
     // Check if already verified
     if (user.isVerified) {
